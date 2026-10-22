@@ -39,13 +39,6 @@
 
    <!-- body -->
    <body class="main-layout home_page">
-
-      <!-- loader  -->
-      <!-- <div class="loader_bg">
-         <div class="loader"><img src="images/loading.gif" alt="#" /></div>
-      </div> -->
-      <!-- end loader -->
-
       <!-- header -->
       <header>
           <div class="header">
@@ -63,10 +56,9 @@
                         <div class="limit-box">
                            <nav class="main-menu">
                                  <ul class="menu-area-main">
-                                    <!-- <li class="nav-button" class="active"> <a href="#opener">Home</a> </li> -->
-                                    <li class="nav-button"><a href="#connect-section">Connect</a></li>
-                                    <li class="nav-button"><a href="#about-us-section">Events</a></li>
-                                    <!-- <li><a href="#contact-section">Contact us</a></li> -->
+                                    <li class="nav-button" class="active" data-target="#opener"><a href="#">Home</a></li> 
+                                    <li class="nav-button" data-target="#projects"><a href="#">Connect</a></li>
+                                    <li class="nav-button" data-target="#experience"><a href="#">Events</a></li>
                                  </ul>
                            </nav>
                         </div>
@@ -79,7 +71,7 @@
       <!-- end header -->
 
       <!-- opener -->
-       <div class="about" id="opener">
+       <div class="about active-section" id="opener">
          <div class="container">
             <div class="row">
                <div class="col-md-10 offset-md-1">
@@ -120,7 +112,7 @@
        <!-- end opener -->
 
        <!-- connect with us / photo slider section -->
-      <div class="about" id="connect-section">
+      <div class="about" id="projects">
          <div class="container">
             <div class="row">
                <div class="col-md-10 offset-md-1">
@@ -187,7 +179,7 @@
 
 
       <!-- Events -->
-      <div class="about" id="about-us-section">
+      <div class="about" id="experience">
          <div class="container">
             <div class="row">
                <div class="col-md-10 offset-md-1">
@@ -198,23 +190,8 @@
                </div>
             </div>
             <div class="row border">
-               <!-- <iframe src="https://dclibrary.libnet.info/events?l=Northeast+Neighborhood+Library&r=nextmonth" height="200" width="300" title="Iframe Example"></iframe> -->
                <div id="events"></div>
-
                <a class="opener" href="https://dclibrary.libnet.info/events?l=Northeast+Neighborhood+Library&r=thismonth" target="_blank" style="width: 100%;">See All Events!</a>
-
-               <!-- <a href="https://dclibrary.libnet.info/events?l=Northeast+Neighborhood+Library&r=nextmonth" target="_blank"><h1 class="event-title">See All Events</h1></a> -->
-               <!-- <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
-                  <div class="about-box">
-                     <p> consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-                     <a href="#">Read More</a>
-                  </div>
-               </div>
-               <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
-                  <div class="about-box">
-                     <figure><img src="images/about.png" alt="img" /></figure>
-                  </div>
-               </div> -->
             </div>
          </div>
       </div>
@@ -233,11 +210,18 @@
       <!-- Javascript functions-->
       <script>
          $('.nav-button').on('click', function (e) {
+            // highlight the current menu item
             $('.nav-button').removeClass('active');
             $(this).addClass('active');
+
+            // show the clicked section
+            $(".about").removeClass("active-section")
+            $($(this).data("target")).addClass("active-section")
+
          });   
 
          $(function() {
+            // get the image carousel
             $.getJSON('images.json')
             .done(function(data) {
                data.images.forEach(function(src) {
@@ -257,34 +241,7 @@
             .fail(function() {
                $('#google-img-carousel').text('Failed to load images.');
             });
-         });
-
-         $.ajax({
-            url: 'https://old-mouse-8882.rdicrist.workers.dev/?url=' +
-            encodeURIComponent('https://dclibrary.libnet.info/feeds?data=eyJmZWVkVHlwZSI6InJzcyIsImZpbHRlcnMiOnsibG9jYXRpb24iOlsiMjMxOCJdLCJhZ2VzIjpbImFsbCJdLCJ0eXBlcyI6WyJhbGwiXSwidGFncyI6W10sInRlcm0iOiIiLCJkYXlzIjoxfX0='),
-         
-            dataType: 'xml',
-            success: function(xml) {
-               const $container = $('#events');
-               $container.empty();
-
-               $(xml).find('item').slice(0, 10).each(function() {
-                  const title = $(this).find('title').text();
-                  const link  = $(this).find('link').text();
-                  const desc  = $(this).find('description').text();
-
-                  $container.append(`
-                  <div class="event">
-                     <a class="event-title" href="${link}" target="_blank" ><h1 class="event-title">${title}</h1></a>
-                     <p class="event-desc">${desc}</p>
-                  </div>
-                  `);
-               });
-            },
-            error: function() {
-               $('#events').html('<p>Unable to load events.</p>');
-            }
-         });     
+         });    
       </script>
    </body>
 </html>

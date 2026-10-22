@@ -1469,6 +1469,7 @@ ul.locat_icon li a{
      background-position: center center;
      /* padding: 115px 0px; */
      padding: 15px;
+     display: none;
 }
 
 /* @media screen and (max-width: 600px) {
@@ -1872,4 +1873,8 @@ header {
 .event-title {
     font-size: x-large;
     color: blue;
+}
+
+.active-section {
+    display: block;
 }
